@@ -9,10 +9,6 @@ public class Message implements Serializable {
 	private User fromUser;
 	private User toUser;
 
-	public Message() {
-		
-	}
-	
 	public Message(String body, User from, User to) {
 		this.body = body;
 		this.fromUser = from;

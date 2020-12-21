@@ -8,10 +8,6 @@ public class Action implements Serializable {
 	private Operation type;
 	private Object target;
 
-	public Action() {
-		
-	}
-	
 	public Action(Operation type) {
 		this.type = type;
 	}
@@ -20,7 +16,7 @@ public class Action implements Serializable {
 		this.type = type;
 		this.target = target;
 	}
-
+		
 	public Operation getOperation() {
 		return type;
 	}

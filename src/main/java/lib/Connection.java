@@ -3,28 +3,17 @@ package lib;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.InetAddress;
-import java.io.OutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.core.StreamReadFeature;
-import com.fasterxml.jackson.core.StreamWriteFeature;
 import java.net.UnknownHostException;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class Connection {
 	
-	private Socket socket;
-	private ObjectMapper objectMapper;
-	
+	private transient Socket socket;
+		
 	public Connection(Socket socket) {
 		this.socket = socket;
-		objectMapper = JsonMapper.builder().disable(StreamWriteFeature.AUTO_CLOSE_TARGET)
-				.disable(StreamReadFeature.AUTO_CLOSE_SOURCE)
-				.enable(StreamWriteFeature.FLUSH_PASSED_TO_STREAM)
-				.build();
 	}
 	
 	@SuppressWarnings("resource")
@@ -46,15 +35,15 @@ public class Connection {
 	
 	public void send(Object object) throws IOException {
 		
-		OutputStream dout = new ObjectOutputStream(socket.getOutputStream());
+		ObjectOutputStream dout = new ObjectOutputStream(socket.getOutputStream());
 		
-		objectMapper.writeValue(dout, object);		
+		dout.writeObject(object);		
 	}
 	
 	public Object fetch() throws IOException, ClassNotFoundException {
 		
-		InputStream din = new ObjectInputStream(socket.getInputStream());
+		ObjectInputStream din = new ObjectInputStream(socket.getInputStream());
 	
-		return objectMapper.readValue(din, Object.class);
+		return din.readObject();
 	}
 }
