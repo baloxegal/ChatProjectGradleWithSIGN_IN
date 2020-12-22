@@ -7,10 +7,6 @@ public class Action implements Serializable {
 	private static final long serialVersionUID = -5277267620567763963L;
 	private Operation type;
 	private Object target;
-
-	public Action(Operation type) {
-		this.type = type;
-	}
 	
 	public Action(Operation type, Object target) {
 		this.type = type;
